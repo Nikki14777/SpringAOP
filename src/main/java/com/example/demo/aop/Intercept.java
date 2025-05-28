@@ -73,8 +73,9 @@ public class Intercept {
 		String coreleationIdstr= null;
 	if(null==request.getHeader("corelationId")) {
 		coreleationIdstr = "Custom"+" "+Long.toString(System.currentTimeMillis());
+		return coreleationIdstr;
 	}
-	return coreleationIdstr;
+	return request.getHeader("corelationId");
 	}
 	
 	private String getUrl() {
