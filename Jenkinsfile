@@ -3,6 +3,11 @@ pipeline{
 	tools {
     	    maven 'maven 3.9.7'  // This must match the name from Global Tool Configuration
     }
+	 environment {
+        IMAGE_NAME = 'SpringAOP'
+        IMAGE_TAG = 'v1.0'
+        DOCKERFILE_PATH = 'Dockerfile'
+    }
 	stages{
 		stage('Checkout'){
 			steps{
@@ -29,6 +34,19 @@ pipeline{
                 	junit '**/target/surefire-reports/*.xml'
             }
       	  }
+		stage('Build Docker Image') {
+            steps {
+                sh """
+                    docker build -f ${DOCKERFILE_PATH} -t ${IMAGE_NAME}:${IMAGE_TAG} .
+                """
+            }
+        }
+
+        stage('Verify Image') {
+            steps {
+                sh 'docker images | grep ${IMAGE_NAME}'
+            }
+        }
 	}
 
 }
