@@ -4,7 +4,7 @@ pipeline{
     	    maven 'maven 3.9.7'  // This must match the name from Global Tool Configuration
     }
 	 environment {
-        IMAGE_NAME = 'SpringAOP'
+        IMAGE_NAME = 'springAOP'
         IMAGE_TAG = 'v1.0'
         DOCKERFILE_PATH = 'Dockerfile'
     }
