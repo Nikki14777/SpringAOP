@@ -6,9 +6,9 @@ pipeline{
 				git 'https://github.com/Nikki14777/SpringAOP.git'
 			}
 		}
-		stage('Build'){
+		stage('Dependency Check'){
 			steps{
-				sh 'ls -la'
+				dependencyCheck additionalArguments: '--format XML', odcInstallation: 'dependency-check 12.1.3'
 			}
 		}
 	}
