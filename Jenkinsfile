@@ -37,18 +37,18 @@ pipeline{
                 	junit '**/target/surefire-reports/*.xml'
             }
       	  }
-	       stage('SonarQube Analysis') {
-           	 steps {
-                	withSonarQubeEnv('SonarQube') {
-                 	  	 sh '''mvn clean verify sonar:sonar
-				sonar-scanner \
-	                        -Dsonar.projectKey=springaop \
-	                        -Dsonar.sources=src \
-	                        -Dsonar.host.url=http://localhost:9000 \
-	                        -Dsonar.login=$SONAR_AUTH_TOKEN'''
-                }
-            }
-        }
+	      stage('SonarQube Analysis') {
+	    steps {
+	        withSonarQubeEnv('SonarQube') {
+	            sh """
+	                mvn clean verify sonar:sonar \
+	                -Dsonar.projectKey=springaop \
+	                -Dsonar.host.url=http://localhost:9000 \
+	                -Dsonar.login=${SONAR_AUTH_TOKEN}
+          	  """
+    	      }
+ 	   }
+	}
 		stage('Build Docker Image') {
             steps {
                 sh """
