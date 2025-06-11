@@ -78,9 +78,7 @@ pipeline{
 		stage('Docker Image Security Scan') {
     steps {
         sh '''
-            docker pull aquasec/trivy:latest
-            docker run --rm -v /var/run/docker.sock:/var/run/docker.sock \
-                aquasec/trivy image ${IMAGE_NAME}:${IMAGE_TAG}
+            trivy image --exit-code 1 --severity CRITICAL,HIGH ${IMAGE_NAME}:${IMAGE_TAG}
         '''
     }
 }
