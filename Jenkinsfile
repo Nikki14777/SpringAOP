@@ -40,7 +40,8 @@ pipeline{
 	       stage('SonarQube Analysis') {
            	 steps {
                 	withSonarQubeEnv('SonarQube') {
-                 	  	 sh 'sonar-scanner \
+                 	  	 sh 'mvn clean verify sonar:sonar
+				sonar-scanner \
 	                        -Dsonar.projectKey=springaop \
 	                        -Dsonar.sources=src \
 	                        -Dsonar.host.url=http://localhost:9000 \
