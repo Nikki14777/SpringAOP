@@ -1,12 +1,14 @@
 pipeline{
 	agent any
 	tools {
-    	    maven 'maven 3.9.7'  // This must match the name from Global Tool Configuration
+    	    maven 'maven 3.9.7' 
+	    sonarQube 'SonarQube' 
     }
 	 environment {
         IMAGE_NAME = 'springaop'
         IMAGE_TAG = 'v1.0'
         DOCKERFILE_PATH = 'Dockerfile'
+	SONAR_AUTH_TOKEN = credentials('sonarqube-token')
     }
 	stages{
 		stage('Checkout'){
@@ -34,6 +36,17 @@ pipeline{
                 	junit '**/target/surefire-reports/*.xml'
             }
       	  }
+	       stage('SonarQube Analysis') {
+           	 steps {
+                	withSonarQubeEnv('SonarQube') {
+                 	  	 sh 'sonar-scanner \
+	                        -Dsonar.projectKey=springaop \
+	                        -Dsonar.sources=src \
+	                        -Dsonar.host.url=http://localhost:9000 \
+	                        -Dsonar.login=$SONAR_AUTH_TOKEN'
+                }
+            }
+        }
 		stage('Build Docker Image') {
             steps {
                 sh """
