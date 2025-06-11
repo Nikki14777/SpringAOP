@@ -78,11 +78,11 @@ pipeline{
 		stage('Docker Image Security Scan') {
     steps {
         sh '''
-            trivy image --exit-code 1 --severity CRITICAL,HIGH ${IMAGE_NAME}:${IMAGE_TAG}
+            docker volume create trivy-db || true
+            docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v trivy-db:/root/.cache/ aquasec/trivy image --exit-code 1 --severity CRITICAL,HIGH springaop:v1.0
         '''
     }
 }
-
 	}
 
 }
