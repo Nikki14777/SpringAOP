@@ -2,12 +2,14 @@ pipeline{
 	agent any
 	tools {
     	    maven 'maven 3.9.7'
+		
     }
 	 environment {
         IMAGE_NAME = 'springaop'
         IMAGE_TAG = 'v1.0'
         DOCKERFILE_PATH = 'Dockerfile'
 	SONAR_AUTH_TOKEN = credentials('sonarqube-token')
+	SONAR_SCANNER_OPTS = "-Xmx512m"
     }
 	stages{
 		stage('Checkout'){
